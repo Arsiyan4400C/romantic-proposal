@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Will You Marry Me?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(-45deg, #ff9a9e, #fecfef, #fecfef, #fad0c4);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      animation: sparkle 3s infinite ease-in-out;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+
+    .hearts {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      transform: rotate(45deg);
+      animation: floatHeart 10s infinite linear;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      left: 50%;
+      top: 0;
+      background: #ff69b4;
+      border-radius: 50px 50px 0 50px;
+      transform: translateX(-50%) rotate(-45deg);
+      transform-origin: 0 100%;
+    }
+
+    .heart::after {
+      left: 0;
+      transform: translateX(-50%) rotate(45deg);
+      transform-origin: 100% 100%;
+    }
+
+    @keyframes floatHeart {
+      0% {
+        transform: translateY(100vh) rotate(45deg) scale(0);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) rotate(405deg) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      color: #fff;
+      padding: 20px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      transform: scale(0.8);
+      animation: cardAppear 1s ease-out forwards;
+    }
+
+    @keyframes cardAppear {
+      to {
+        transform: scale(1);
+      }
+    }
+
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3em;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      animation: titleGlow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes titleGlow {
+      from {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+      to {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    .btn-group {
+      margin-top: 30px;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: 600;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    button:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .yes {
+      background: linear-gradient(45deg, #ff6b6b, #ffa500);
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    }
+
+    .yes:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+    }
+
+    .no {
+      background: linear-gradient(45deg, #fff, #f0f0f0);
+      color: #ff6b6b;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .no:hover {
+      transform: translateY(-3px) scale(1.05);
+      animation: shake 0.5s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0) translateY(-3px) scale(1.05); }
+      25% { transform: translateX(-5px) translateY(-3px) scale(1.05); }
+      75% { transform: translateX(5px) translateY(-3px) scale(1.05); }
+    }
+
+    #nameInput {
+      padding: 15px 20px;
+      border-radius: 25px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      font-size: 16px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+      margin-bottom: 20px;
+      font-family: 'Poppins', sans-serif;
+      transition: all 0.3s ease;
+      width: 300px;
+      max-width: 90%;
+    }
+
+    #nameInput:focus {
+      outline: none;
+      border-color: #ff6b6b;
+      box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+      transform: scale(1.05);
+    }
+
+    .message {
+      font-size: 1.8em;
+      margin-top: 30px;
+      display: none;
+      animation: messageAppear 1s ease-out;
+      font-weight: 600;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    @keyframes messageAppear {
+      0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.8);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .fireworks {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .firework {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      animation: explode 1s ease-out forwards;
+    }
+
+    @keyframes explode {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(20);
+        opacity: 0;
+      }
+    }
+
+    .ring-animation {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      margin-top: 20px;
+      animation: ringRotate 3s linear infinite;
+      font-size: 60px;
+    }
+
+    @keyframes ringRotate {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.2); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.2em;
+      }
+      
+      .glass-card {
+        padding: 30px 20px;
+      }
+      
+      .btn-group {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      button {
+        width: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="particles"></div>
+  <div class="hearts"></div>
+  
+  <div class="container">
+    <div id="nameForm" class="glass-card">
+      <h1>✨ Enter Your Name, Beautiful ✨</h1>
+      <input type="text" id="nameInput" placeholder="Your magical name...">
+      <div class="btn-group">
+        <button onclick="startProposal()" class="yes">✨ Begin Our Journey ✨</button>
+      </div>
+    </div>
+
+    <div id="proposal" class="glass-card" style="display: none;">
+      <h1 id="proposalText"></h1>
+      <div class="ring-animation">💍</div>
+      <div class="btn-group">
+        <button class="yes" onclick="showMessage()">Yes! Forever & Always 💍</button>
+        <button class="no" onclick="moveNoButton(this)" id="noBtn">Maybe Not Today 😅</button>
+      </div>
+      <div class="message" id="romanticMessage">
+        🎉 YES! You've made me the happiest soul in the universe! 💕✨<br>
+        Our love story begins now! 💖👑
+      </div>
+    </div>
+  </div>
+
+  <div class="fireworks" id="fireworks"></div>
+
+  <script>
+    // Create floating particles
+    function createParticles() {
+      const particlesContainer = document.querySelector('.particles');
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 3 + 's';
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // Create floating hearts
+    function createHearts() {
+      const heartsContainer = document.querySelector('.hearts');
+      
+      setInterval(() => {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.animationDuration = (Math.random() * 5 + 8) + 's';
+        heart.style.opacity = Math.random() * 0.7 + 0.3;
+        
+        const size = Math.random() * 15 + 15;
+        heart.style.width = size + 'px';
+        heart.style.height = size + 'px';
+        
+        heartsContainer.appendChild(heart);
+
+        // Remove heart after animation
+        setTimeout(() => {
+          if (heart.parentNode) {
+            heart.parentNode.removeChild(heart);
+          }
+        }, 10000);
+      }, 500);
+    }
+
+    // Enhanced proposal start
+    function startProposal() {
+      const name = document.getElementById('nameInput').value.trim();
+      if (name === '') {
+        document.getElementById('nameInput').style.animation = 'shake 0.5s ease-in-out';
+        setTimeout(() => {
+          document.getElementById('nameInput').style.animation = '';
+        }, 500);
+        return;
+      }
+
+      // Smooth transition
+      const nameForm = document.getElementById('nameForm');
+      const proposal = document.getElementById('proposal');
+      
+      nameForm.style.animation = 'cardAppear 0.5s ease-out reverse forwards';
+      
+      setTimeout(() => {
+        nameForm.style.display = 'none';
+        proposal.style.display = 'block';
+        proposal.style.animation = 'cardAppear 1s ease-out forwards';
+        document.getElementById('proposalText').textContent = `${name}, will you marry me? 💖`;
+      }, 500);
+    }
+
+    // Enhanced no button movement
+    let noClickCount = 0;
+    const noMessages = [
+      "Are you sure? 🥺",
+      "Think about it... 💭",
+      "Come on, just say yes! 😊",
+      "I'll wait forever! ⏰",
+      "Please? With cherry on top? 🍒",
+      "You're making this hard! 😢",
+      "I know you want to say yes! 😉"
+    ];
+
+    function moveNoButton(button) {
+      noClickCount++;
+      
+      // Change button text
+      if (noClickCount <= noMessages.length) {
+        button.textContent = noMessages[noClickCount - 1] || "No 😅";
+      }
+      
+      // Make button smaller and more elusive
+      const scale = Math.max(0.5, 1 - (noClickCount * 0.1));
+      button.style.transform = `scale(${scale})`;
+      
+      // Move to random position
+      const maxX = window.innerWidth - button.offsetWidth;
+      const maxY = window.innerHeight - button.offsetHeight;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+      
+      button.style.position = 'fixed';
+      button.style.left = x + 'px';
+      button.style.top = y + 'px';
+      button.style.zIndex = '1000';
+      
+      // Add wiggle animation
+      button.style.animation = 'shake 0.5s ease-in-out';
+      
+      // After many clicks, make it almost impossible to click
+      if (noClickCount > 5) {
+        button.style.opacity = '0.3';
+        button.addEventListener('mouseenter', () => {
+          const newX = Math.random() * maxX;
+          const newY = Math.random() * maxY;
+          button.style.left = newX + 'px';
+          button.style.top = newY + 'px';
+        });
+      }
+    }
+
+    // Fireworks effect
+    function createFireworks() {
+      const fireworksContainer = document.getElementById('fireworks');
+      const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#f0932b', '#eb4d4b'];
+      
+      for (let i = 0; i < 15; i++) {
+        setTimeout(() => {
+          const firework = document.createElement('div');
+          firework.classList.add('firework');
+          firework.style.left = Math.random() * 100 + '%';
+          firework.style.top = Math.random() * 100 + '%';
+          firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          
+          fireworksContainer.appendChild(firework);
+          
+          setTimeout(() => {
+            if (firework.parentNode) {
+              firework.parentNode.removeChild(firework);
+            }
+          }, 1000);
+        }, i * 100);
+      }
+    }
+
+    // Enhanced yes response
+    function showMessage() {
+      document.querySelector('.message').style.display = 'block';
+      createFireworks();
+      
+      // Celebrate with more hearts
+      const heartsContainer = document.querySelector('.hearts');
+      for (let i = 0; i < 30; i++) {
+        setTimeout(() => {
+          const heart = document.createElement('div');
+          heart.classList.add('heart');
+          heart.style.left = Math.random() * 100 + '%';
+          heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
+          heart.style.opacity = Math.random() * 0.8 + 0.2;
+          
+          const size = Math.random() * 25 + 20;
+          heart.style.width = size + 'px';
+          heart.style.height = size + 'px';
+          
+          heartsContainer.appendChild(heart);
+        }, i * 50);
+      }
+
+      // Hide the no button
+      const noBtn = document.getElementById('noBtn');
+      if (noBtn) {
+        noBtn.style.display = 'none';
+      }
+
+      // Continuous fireworks
+      setTimeout(() => createFireworks(), 2000);
+      setTimeout(() => createFireworks(), 4000);
+    }
+
+    // Initialize effects
+    document.addEventListener('DOMContentLoaded', () => {
+      createParticles();
+      createHearts();
+      
+      // Add enter key support
+      document.getElementById('nameInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          startProposal();
+        }
+      });
+    });
+
+    // Easter egg: Konami code
+    let konamiCode = [];
+    const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+    
+    document.addEventListener('keydown', (e) => {
+      konamiCode.push(e.keyCode);
+      if (konamiCode.length > konamiSequence.length) {
+        konamiCode.shift();
+      }
+      
+      if (konamiCode.length === konamiSequence.length && 
+          konamiCode.every((code, index) => code === konamiSequence[index])) {
+        createFireworks();
+        setTimeout(() => createFireworks(), 1000);
+        setTimeout(() => createFireworks(), 2000);
+      }
+    });
+  </script>
+</body>
+</html>
